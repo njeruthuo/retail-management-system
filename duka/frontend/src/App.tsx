@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./index.css";
+import { HomeLayout } from "./_layout";
+import { Route, Routes } from "react-router-dom";
+import { Toaster } from "./components/ui/toaster";
+import { AddCategoryForm, AddProductForm } from "./_forms";
+import { CategoryDetails, Footer, Home, Navbar } from "./pages";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <section className="relative min-h-screen">
+      <main className="flex flex-col w-10/12 mx-auto dark:bg-slate-700">
+        <Navbar />
+        <hr />
+        <Toaster />
+        <Routes>
+          <Route index element={<Home />} />
 
-export default App
+          <Route element={<HomeLayout />}>
+            <Route path="/add-product" element={<AddProductForm />} />
+            <Route path="/add-category" element={<AddCategoryForm />} />
+            <Route path="/category/:id" element={<CategoryDetails />} />
+          </Route>
+        </Routes>
+      </main>
+      <div className="absolute bottom-0 right-0 left-0 text-white">
+        <Footer />
+      </div>
+    </section>
+  );
+}
