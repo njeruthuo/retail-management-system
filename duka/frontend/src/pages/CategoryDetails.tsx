@@ -3,6 +3,7 @@ import { useCategoryContext } from "@/lib/context/CategoryContext";
 import { useParams } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { AddProductForm } from "@/_forms";
+import { useProductContext } from "@/lib/context/ProductContext";
 
 const CategoryDetails = () => {
   const { toast } = useToast();
@@ -12,9 +13,17 @@ const CategoryDetails = () => {
   const { categories } = useCategoryContext();
   const category = categories.find((category) => category.id === parseInt(id));
 
+  const { products } = useProductContext();
+
   if (!category) {
     return <div>Category not found</div>;
   }
+
+  const filterProductsByCategory = (categoryId) => {
+    return products.filter((product) => product.category.id === categoryId);
+  };
+
+  const filteredProducts = filterProductsByCategory(parseInt(id));
 
   function deleteNotify(id) {
     deleteCategory(id);
@@ -26,6 +35,7 @@ const CategoryDetails = () => {
       window.location.replace("/");
     }, 2000);
   }
+
   return (
     <div>
       <h2 className="text-lg font-medium mb-4">{category.name}</h2>
@@ -82,7 +92,12 @@ const CategoryDetails = () => {
       ) : (
         <div>
           {/* Product list */}
-          <p>list here</p>
+          <ul>
+            {filteredProducts.map((product) => {
+              const { id, name } = product;
+              return <li key={id}>{name}</li>;
+            })}
+          </ul>
         </div>
       )}
     </div>

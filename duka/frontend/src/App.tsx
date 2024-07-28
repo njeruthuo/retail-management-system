@@ -16,7 +16,7 @@ export default function App() {
           <Route index element={<Home />} />
 
           <Route element={<HomeLayout />}>
-            <Route path="/add-product" element={<AddProductForm />} />
+            {/* <Route path="/add-product" element={<AddProductForm />} /> */}
             <Route path="/add-category" element={<AddCategoryForm />} />
             <Route path="/category/:id" element={<CategoryDetails />} />
           </Route>

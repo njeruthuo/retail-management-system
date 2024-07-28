@@ -31,8 +31,7 @@ const AddProductForm = ({ category_id }) => {
   const { toast } = useToast();
   const { addProduct } = useProductContext();
 
-  // Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -41,22 +40,20 @@ const AddProductForm = ({ category_id }) => {
     },
   });
 
-  // Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // Convert string values to numbers
       const newProduct = await addProduct({
-        name: values.name,
+        ...values,
         selling_price: parseFloat(values.selling_price),
         buying_price: parseFloat(values.buying_price),
-        category: category_id,
+        category_id: parseInt(category_id), // Use category_id here
       });
 
       toast({
         title: "Success",
         description: `Product added successfully.`,
       });
-      form.reset(); // Optionally reset the form after successful submission
+      form.reset();
       return newProduct;
     } catch (error) {
       toast({
