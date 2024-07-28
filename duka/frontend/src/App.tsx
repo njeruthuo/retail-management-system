@@ -2,8 +2,15 @@ import "./index.css";
 import { HomeLayout } from "./_layout";
 import { Route, Routes } from "react-router-dom";
 import { Toaster } from "./components/ui/toaster";
-import { AddCategoryForm, AddProductForm } from "./_forms";
-import { CategoryDetails, Footer, Home, Navbar } from "./pages";
+import { AddCategoryForm } from "./_forms";
+import {
+  CategoryDetails,
+  ChartShow,
+  Footer,
+  Home,
+  Navbar,
+  Settings,
+} from "./pages";
 
 export default function App() {
   return (
@@ -16,7 +23,8 @@ export default function App() {
           <Route index element={<Home />} />
 
           <Route element={<HomeLayout />}>
-            {/* <Route path="/add-product" element={<AddProductForm />} /> */}
+            <Route path="/charts" element={<ChartShow />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="/add-category" element={<AddCategoryForm />} />
             <Route path="/category/:id" element={<CategoryDetails />} />
           </Route>
